@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Roles Self-Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ECEEE5;
+    --paper:#FFFFFF;
+    --ink:#1C2620;
+    --ink-soft:#5B685F;
+    --line:#D8D8CB;
+    --accent:#2B5F63;
+    --accent-dim:#DCE7E5;
+    --warm:#B8722C;
+    --danger:#A63D2E;
+
+    --sh:#A63D2E;
+    --co:#2B5F63;
+    --pl:#6A4C93;
+    --ri:#B8722C;
+    --me:#3C5A73;
+    --imp:#4B6B3F;
+    --tw:#9C4F80;
+    --cf:#836030;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Source Sans 3', sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:32px 16px 64px;
+  }
+  .frame{
+    width:100%;
+    max-width:640px;
+  }
+
+  header.top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:20px;
+    gap:12px;
+  }
+  header.top h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.3rem;
+    margin:0;
+    letter-spacing:0.2px;
+  }
+  header.top .stepnote{
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+
+  .progress{
+    display:flex;
+    gap:5px;
+    margin-bottom:28px;
+  }
+  .progress .seg{
+    flex:1;
+    height:4px;
+    background:var(--line);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .progress .seg.done{background:var(--accent);}
+  .progress .seg.current{background:var(--accent); opacity:0.45;}
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:28px 26px 22px;
+  }
+
+  .intro h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.7rem;
+    margin:0 0 14px;
+    line-height:1.25;
+  }
+  .intro p{color:var(--ink-soft); margin:0 0 14px; max-width:52ch;}
+  .intro .example{
+    margin-top:20px;
+    border-top:1px solid var(--line);
+    padding-top:18px;
+  }
+  .intro .example h3{
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    margin:0 0 10px;
+    font-weight:600;
+  }
+  .example-row{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    padding:6px 0;
+    font-size:0.92rem;
+    border-bottom:1px dashed var(--line);
+  }
+  .example-row:last-child{border-bottom:none;}
+  .example-row .pts{color:var(--warm); font-weight:600; flex-shrink:0;}
+  .start-btn{margin-top:24px;}
+
+  .section-label{
+    font-size:0.8rem;
+    color:var(--accent);
+    font-weight:600;
+    letter-spacing:0.2px;
+    margin:0 0 6px;
+  }
+  .section-title{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.35rem;
+    margin:0 0 20px;
+    line-height:1.3;
+  }
+
+  .statement{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    padding:13px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .statement:last-of-type{border-bottom:none;}
+  .statement .text{
+    flex:1;
+    font-size:0.98rem;
+    padding-top:6px;
+  }
+  .stepper{
+    display:flex;
+    align-items:center;
+    gap:0;
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .stepper button{
+    width:32px;
+    height:32px;
+    border:none;
+    background:var(--paper);
+    color:var(--ink);
+    font-size:1.05rem;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .stepper button:hover{background:var(--accent-dim);}
+  .stepper button:disabled{color:var(--line); cursor:default; background:var(--paper);}
+  .stepper .val{
+    width:30px;
+    text-align:center;
+    font-weight:600;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .totalbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:18px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+  }
+  .totalbar .totaltext{font-size:0.92rem; color:var(--ink-soft);}
+  .totalbar .totaltext strong{color:var(--ink); font-variant-numeric:tabular-nums;}
+  .totalbar .totaltext strong.ok{color:var(--accent);}
+  .totalbar .totaltext strong.over{color:var(--danger);}
+  .hint{font-size:0.82rem; color:var(--ink-soft); margin-top:6px;}
+  .hint.warn{color:var(--danger);}
+
+  .navrow{
+    display:flex;
+    justify-content:space-between;
+    margin-top:22px;
+  }
+  button.primary{
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    padding:11px 22px;
+    border-radius:8px;
+    font-size:0.95rem;
+    font-weight:600;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  button.primary:disabled{background:var(--line); cursor:not-allowed;}
+  button.ghost{
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    padding:11px 8px;
+    font-size:0.95rem;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  button.ghost:disabled{opacity:0; pointer-events:none;}
+
+  /* Results */
+  .results h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.7rem;
+    margin:0 0 6px;
+  }
+  .results .sub{color:var(--ink-soft); margin:0 0 26px;}
+
+  .radar-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:6px;
+  }
+  .radar-svg{width:100%; max-width:420px; height:auto; overflow:visible;}
+  .radar-label{font-family:'Source Sans 3', sans-serif; font-size:11px; font-weight:600;}
+  .radar-score{font-family:'Source Sans 3', sans-serif; font-size:10px; fill:var(--ink-soft);}
+
+  .scorelist{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2px 20px;
+    margin:18px 0 4px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+  }
+  .scoreline{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:5px 0;
+    font-size:0.86rem;
+  }
+  .scoreline .swatch{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
+  .scoreline .sname{color:var(--ink-soft); flex:1;}
+  .scoreline .sval{font-weight:600; font-variant-numeric:tabular-nums;}
+
+  .top-roles{
+    margin-top:30px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+  }
+  .top-roles h3{
+    font-size:0.8rem;
+    color:var(--accent);
+    font-weight:600;
+    margin:0 0 16px;
+  }
+  .role-detail{
+    display:flex;
+    gap:14px;
+    margin-bottom:26px;
+  }
+  .role-detail:last-child{margin-bottom:0;}
+  .role-detail .dot{
+    width:12px; height:12px; border-radius:50%;
+    margin-top:5px; flex-shrink:0;
+  }
+  .role-detail .name{
+    font-family:'Fraunces', serif;
+    font-size:1.1rem;
+    font-weight:500;
+    margin:0 0 4px;
+  }
+  .role-detail .desc{font-size:0.92rem; color:var(--ink-soft); margin:0;}
+  .subhead{
+    font-size:0.78rem;
+    font-weight:600;
+    color:var(--ink);
+    margin:14px 0 6px;
+  }
+  .strengths{
+    margin:0;
+    padding-left:18px;
+    font-size:0.9rem;
+  }
+  .strengths li{margin-bottom:4px;}
+  .weakness{font-size:0.9rem; color:var(--ink-soft); margin:0;}
+
+  .accordion{border-top:1px solid var(--line);}
+  .role-acc{
+    border-bottom:1px solid var(--line);
+    padding:14px 0;
+  }
+  .role-acc summary{
+    cursor:pointer;
+    font-family:'Fraunces', serif;
+    font-size:1rem;
+    font-weight:500;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    list-style:none;
+  }
+  .role-acc summary::-webkit-details-marker{display:none;}
+  .role-acc summary .swatch{width:10px; height:10px; border-radius:50%; flex-shrink:0;}
+  .role-acc[open] summary{margin-bottom:12px;}
+  .role-acc .desc{font-size:0.9rem; color:var(--ink-soft); margin:0 0 4px;}
+
+  .restart-row{margin-top:26px;}
+  button.secondary{
+    background:none;
+    border:1px solid var(--line);
+    color:var(--ink);
+    padding:10px 18px;
+    border-radius:8px;
+    font-size:0.9rem;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  button.secondary:hover{border-color:var(--accent); color:var(--accent);}
+
+  @media (max-width:480px){
+    .card{padding:22px 18px 18px;}
+    .barrow{grid-template-columns:110px 1fr 30px; gap:6px;}
+    .statement .text{font-size:0.94rem;}
+  }
+</style>
+</head>
+<body>
+<div class="stage"><div class="frame" id="app"></div></div>
+
+<script>
+const SECTIONS = [
+  { title: "When involved in a project with other people:", items: [
+    ["A1","IMP","You can trust me to make sure the work is planned and gets done."],
+    ["A2","CF","I notice small mistakes that other people don't see."],
+    ["A3","SH","I speak up if the meeting starts to lose focus."],
+    ["A4","PL","I often share new and creative ideas."],
+    ["A5","ME","I look at others' ideas fairly and say what's good or bad about them."],
+    ["A6","RI","I enjoy learning about new ideas and changes."],
+    ["A7","CO","I'm good at helping people work together and stay organised."],
+    ["A8","TW","I always support helpful ideas that can solve problems."],
+  ]},
+  { title: "In seeking satisfaction through my work:", items: [
+    ["B1","SH","I like to have a strong say in making decisions."],
+    ["B2","CF","I enjoy work that needs focus and careful thinking."],
+    ["B3","TW","I care about helping my teammates with their problems."],
+    ["B4","ME","I like choosing the best option from different choices."],
+    ["B5","PL","I enjoy finding creative ways to solve problems."],
+    ["B6","CO","I like helping people agree when they have different opinions."],
+    ["B7","IMP","I'm more interested in doing things that work than in new ideas."],
+    ["B8","RI","I enjoy learning about different opinions and methods."],
+  ]},
+  { title: "When the team is trying to solve a particularly complex problem:", items: [
+    ["C1","CF","I pay attention to possible problems that might come up."],
+    ["C2","RI","I look for ideas that could be useful in other situations too."],
+    ["C3","ME","I like to carefully compare different ideas before choosing one."],
+    ["C4","CO","I'm good at bringing people's skills together to get things done."],
+    ["C5","IMP","I stay calm and organised even when things get stressful."],
+    ["C6","PL","I often find new ways to solve problems that have lasted a long time."],
+    ["C7","SH","I will clearly share my opinions if needed."],
+    ["C8","TW","I'm happy to help whenever I can."],
+  ]},
+  { title: "In carrying out my day-to-day work:", items: [
+    ["D1","IMP","I like to be clear about what my job and goals are."],
+    ["D2","SH","I'm not afraid to share my opinions in meetings."],
+    ["D3","CO","I can work with anyone if they have good ideas to offer."],
+    ["D4","RI","I try to learn more about interesting ideas or people."],
+    ["D5","ME","I can usually explain why a bad idea won't work."],
+    ["D6","PL","I notice connections that others might not see."],
+    ["D7","CF","I enjoy being busy and getting things done."],
+    ["D8","TW","I'm quietly interested in learning more about people."],
+  ]},
+  { title: "If I am suddenly given a difficult task with limited time and unfamiliar people:", items: [
+    ["E1","PL","I sometimes feel less creative when working in a group."],
+    ["E2","TW","I'm good at helping people come to an agreement."],
+    ["E3","ME","My emotions don't usually affect my decisions."],
+    ["E4","IMP","I try to create a clear and effective plan."],
+    ["E5","CO","I can work with many different types of people."],
+    ["E6","SH","I think it's sometimes okay to be unpopular if it helps me share my ideas clearly."],
+    ["E7","RI","I usually know someone who has the right knowledge for the task."],
+    ["E8","CF","I naturally start working quickly when something is urgent."],
+  ]},
+  { title: "When suddenly asked to consider a new project:", items: [
+    ["F1","RI","I start looking for ideas and opportunities right away."],
+    ["F2","CF","I want to finish my current work properly before starting something new."],
+    ["F3","ME","I try to understand the problem by thinking carefully and logically."],
+    ["F4","CO","I can speak up and get others involved if needed."],
+    ["F5","PL","I usually look at things in a fresh and creative way."],
+    ["F6","SH","I'm happy to take charge when something needs to be done."],
+    ["F7","TW","I respond well to my teammates and their ideas."],
+    ["F8","IMP","I find it hard to do a task if the goals are not clear."],
+  ]},
+  { title: "In contributing to group projects in general:", items: [
+    ["G1","IMP","I'm good at figuring out the exact steps needed when given a general task."],
+    ["G2","ME","My decisions take time, but they are usually correct."],
+    ["G3","RI","Having a lot of personal contacts helps me work better."],
+    ["G4","CF","I'm good at noticing and fixing small details."],
+    ["G5","SH","I try to share my ideas and be noticed in meetings."],
+    ["G6","PL","I can see how ideas can be used in new ways."],
+    ["G7","CO","I understand different sides of a problem and try to choose a fair solution."],
+    ["G8","TW","I get along well with others and work hard for the team."],
+  ]},
+];
+
+const ROLES = {
+  SH:  { name:"Shaper", var:"--sh",
+    summary:"Driven and challenge-seeking. Pushes the team past obstacles and keeps momentum going when things get difficult.",
+    strengths:[
+      "Thrives under pressure and keeps the group pushing toward the goal",
+      "Has the nerve to challenge weak thinking, drift, or inertia",
+      "Turns talk into action and forces urgent decisions when needed"
+    ],
+    weakness:"Can come across as blunt or impatient with people who need more time to think things through, and may push so hard for progress that feelings get bruised along the way. Works well alongside a Team Worker who can smooth things over."
+  },
+  CO:  { name:"Co-ordinator", var:"--co",
+    summary:"Confident and welcoming. Clarifies goals, delegates well, and draws out the best contribution from everyone.",
+    strengths:[
+      "Sees the whole picture and knows how to use people's strengths well",
+      "Builds trust quickly and delegates with a clear sense of who's good at what",
+      "Keeps discussions focused on the shared goal rather than side issues"
+    ],
+    weakness:"Can be seen as manipulative if delegating starts to look like offloading their own share of the work, and may end up getting more credit for the group's success than feels fair to others."
+  },
+  PL:  { name:"Plant", var:"--pl",
+    summary:"Imaginative and original. Generates fresh ideas and unconventional ways of solving problems.",
+    strengths:[
+      "Generates the most original ideas and unconventional solutions in the room",
+      "Solves problems the team has gotten stuck on by seeing them differently",
+      "Comfortable questioning assumptions everyone else takes for granted"
+    ],
+    weakness:"Often too absorbed in big ideas to attend to practical details or communicate them clearly, and can seem to brush off instructions or feedback that feel limiting."
+  },
+  RI:  { name:"Resource Investigator", var:"--ri",
+    summary:"Curious and outgoing. Explores opportunities outside the team and brings back useful contacts and ideas.",
+    strengths:[
+      "Brings in outside ideas, contacts, and opportunities the team wouldn't find alone",
+      "Natural enthusiasm helps sell ideas to people outside the group",
+      "Quick to explore new information and adapt to it"
+    ],
+    weakness:"Initial enthusiasm can fade fast once the novelty wears off, and they may promise more than they follow through on, or spread themselves too thin across contacts to keep track of them all."
+  },
+  ME:  { name:"Monitor Evaluator", var:"--me",
+    summary:"Sober and strategic. Weighs up all the options carefully before judging a situation accurately.",
+    strengths:[
+      "Judges situations calmly and objectively, without being swayed by pressure or enthusiasm",
+      "Rarely makes decisions they later regret, thanks to careful weighing of options",
+      "Good at spotting flaws in a plan before it's too late to fix them"
+    ],
+    weakness:"Can come across as overly critical or slow to commit, and their measured style doesn't always inspire or energise a team that needs momentum."
+  },
+  IMP: { name:"Implementer", var:"--imp",
+    summary:"Practical and disciplined. Turns ideas into workable plans and follows through reliably.",
+    strengths:[
+      "Turns discussion and ideas into a workable, realistic plan",
+      "Reliable, well-organised, and disciplined about following through",
+      "Keeps the team grounded when ideas get too abstract"
+    ],
+    weakness:"Can be inflexible once a plan is set, sometimes resisting a genuinely good new idea simply because it disrupts an established way of doing things."
+  },
+  TW:  { name:"Team Worker", var:"--tw",
+    summary:"Co-operative and diplomatic. Smooths over friction and helps the group work well together.",
+    strengths:[
+      "Notices tension early and works to keep the group cohesive",
+      "Listens well and makes sure quieter voices are heard",
+      "Flexible and easy to work alongside, adapting to what the team needs"
+    ],
+    weakness:"Can avoid necessary confrontation or hard decisions to keep the peace, and may struggle to take a firm stance when the team is under pressure to choose a direction."
+  },
+  CF:  { name:"Completer / Finisher", var:"--cf",
+    summary:"Conscientious and careful. Polishes the work and catches the errors other people miss.",
+    strengths:[
+      "Catches errors and inconsistencies that others miss",
+      "Holds the team to a high standard of quality and follow-through",
+      "Reliable under deadline pressure to make sure nothing slips through"
+    ],
+    weakness:"Prone to worrying over details longer than necessary, and often reluctant to delegate for fear the work won't be done to the same standard."
+  },
+};
+
+let state = { screen:"intro", section:0, answers: SECTIONS.map(s => s.items.map(() => 0)) };
+
+function sectionTotal(i){ return state.answers[i].reduce((a,b)=>a+b,0); }
+function sectionCount(i){ return state.answers[i].filter(v=>v>0).length; }
+function canAdvance(i){ return sectionTotal(i)===10 && sectionCount(i)>=1 && sectionCount(i)<=3; }
+
+function render(){
+  const app = document.getElementById('app');
+  if(state.screen==="intro") app.innerHTML = renderIntro();
+  else if(state.screen==="section") app.innerHTML = renderSection(state.section);
+  else app.innerHTML = renderResults();
+  attachHandlers();
+}
+
+function renderIntro(){
+  return `
+    <div class="card intro">
+      <p class="section-label">Team Roles Self-Assessment</p>
+      <h2>How do you work in a team?</h2>
+      <p>There are 7 short sections below. In each one, choose the 1&ndash;3 statements that best describe you and share 10 points between them &mdash; more points for a stronger fit. Be honest with yourself. Here's a worked example:</p>
+      <div class="example">
+        <h3>WHEN INVOLVED IN A PROJECT WITH OTHER PEOPLE</h3>
+        <div class="example-row"><span>You can trust me to make sure the work is planned and gets done.</span><span class="pts">1</span></div>
+        <div class="example-row"><span>I speak up if the meeting starts to lose focus.</span><span class="pts">5</span></div>
+        <div class="example-row"><span>I enjoy learning about new ideas and changes.</span><span class="pts">4</span></div>
+      </div>
+      <button class="primary start-btn" id="beginBtn">Start</button>
+    </div>
+  `;
+}
+
+function renderSection(i){
+  const s = SECTIONS[i];
+  const total = sectionTotal(i);
+  const count = sectionCount(i);
+  const over = total>10 || count>3;
+  const segs = SECTIONS.map((_,idx)=>{
+    let cls = 'seg';
+    if(idx<i) cls+=' done';
+    if(idx===i) cls+=' current';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+
+  const rows = s.items.map((item, j)=>{
+    const [code,,text] = item;
+    const val = state.answers[i][j];
+    return `
+      <div class="statement">
+        <div class="text">${text}</div>
+        <div class="stepper">
+          <button data-act="dec" data-i="${j}" ${val<=0?'disabled':''}>&minus;</button>
+          <span class="val">${val}</span>
+          <button data-act="inc" data-i="${j}" ${total>=10?'disabled':''}>&plus;</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  let hint = "Choose 1 to 3 statements and share 10 points between them.";
+  let hintClass = "hint";
+  if(count>3){ hint = "Choose no more than 3 statements."; hintClass="hint warn"; }
+  else if(total>10){ hint = "That's more than 10 points &mdash; take a couple back."; hintClass="hint warn"; }
+
+  return `
+    <header class="top">
+      <h1>Team Roles Self-Assessment</h1>
+      <span class="stepnote">Section ${i+1} of ${SECTIONS.length}</span>
+    </header>
+    <div class="progress">${segs}</div>
+    <div class="card">
+      <p class="section-label">Section ${String.fromCharCode(65+i)}</p>
+      <h2 class="section-title">${s.title}</h2>
+      ${rows}
+      <div class="totalbar">
+        <div class="totaltext">Total: <strong class="${total===10?'ok':(over?'over':'')}">${total}</strong> / 10</div>
+      </div>
+      <div class="${hintClass}">${hint}</div>
+      <div class="navrow">
+        <button class="ghost" id="backBtn" ${i===0?'disabled':''}>Back</button>
+        <button class="primary" id="nextBtn" ${canAdvance(i)?'':'disabled'}>${i===SECTIONS.length-1?'See my results':'Continue'}</button>
+      </div>
+    </div>
+  `;
+}
+
+function computeScores(){
+  const totals = {}; Object.keys(ROLES).forEach(r=>totals[r]=0);
+  SECTIONS.forEach((s,i)=> s.items.forEach((item,j)=>{
+    totals[item[1]] += state.answers[i][j];
+  }));
+  return totals;
+}
+
+function buildRadar(codes, totals){
+  const cx=200, cy=195, r=140;
+  const n = codes.length;
+  const rawMax = Math.max(...codes.map(c=>totals[c]), 1);
+  const scaleMax = Math.max(15, Math.ceil(rawMax/5)*5);
+  const angleFor = i => (-90 + i*(360/n)) * Math.PI/180;
+  const pointAt = (i, radiusFrac) => {
+    const a = angleFor(i);
+    return [ cx + r*radiusFrac*Math.cos(a), cy + r*radiusFrac*Math.sin(a) ];
+  };
+
+  const rings = [0.25,0.5,0.75,1].map(frac=>{
+    const pts = codes.map((c,i)=>pointAt(i,frac).join(',')).join(' ');
+    return `<polygon points="${pts}" fill="none" stroke="var(--line)" stroke-width="1"/>`;
+  }).join('');
+
+  const spokes = codes.map((c,i)=>{
+    const [x,y] = pointAt(i,1);
+    return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`;
+  }).join('');
+
+  const dataPts = codes.map((c,i)=> pointAt(i, totals[c]/scaleMax) );
+  const dataPoly = dataPts.map(p=>p.join(',')).join(' ');
+
+  const dots = codes.map((c,i)=>{
+    const [x,y] = dataPts[i];
+    return `<circle cx="${x}" cy="${y}" r="4" fill="var(${ROLES[c].var})" stroke="var(--paper)" stroke-width="1.5"/>`;
+  }).join('');
+
+  const labels = codes.map((c,i)=>{
+    const [lx,ly] = pointAt(i, 1.22);
+    const a = angleFor(i);
+    const cosA = Math.cos(a), sinA = Math.sin(a);
+    let anchor = "middle";
+    if(cosA > 0.35) anchor = "start";
+    else if(cosA < -0.35) anchor = "end";
+    let dy = 4;
+    if(sinA < -0.5) dy = -2;
+    else if(sinA > 0.5) dy = 10;
+    return `<text x="${lx}" y="${ly}" dy="${dy}" text-anchor="${anchor}" class="radar-label" fill="var(${ROLES[c].var})">${ROLES[c].name}</text>
+      <text x="${lx}" y="${ly}" dy="${dy+14}" text-anchor="${anchor}" class="radar-score">${totals[c]}</text>`;
+  }).join('');
+
+  return `
+    <svg viewBox="0 0 400 380" class="radar-svg">
+      ${rings}
+      ${spokes}
+      <polygon points="${dataPoly}" fill="var(--accent)" fill-opacity="0.18" stroke="var(--accent)" stroke-width="2"/>
+      ${dots}
+      ${labels}
+    </svg>
+  `;
+}
+
+function renderResults(){
+  const totals = computeScores();
+  const codes = Object.keys(ROLES);
+  const ranked = codes.slice().sort((a,b)=>totals[b]-totals[a]);
+  const top = ranked.slice(0,2).filter(c=>totals[c]>0);
+  const topCodes = top.length? top : ranked.slice(0,1);
+
+  const radar = buildRadar(codes, totals);
+
+  const scoreList = ranked.map(code=>{
+    const r = ROLES[code];
+    return `<div class="scoreline"><span class="swatch" style="background:var(${r.var})"></span><span class="sname">${r.name}</span><span class="sval">${totals[code]}</span></div>`;
+  }).join('');
+
+  const topDetails = topCodes.map(code=>{
+    const r = ROLES[code];
+    return `
+      <div class="role-detail">
+        <span class="dot" style="background:var(${r.var})"></span>
+        <div>
+          <p class="name">${r.name}</p>
+          <p class="desc">${r.summary}</p>
+          <p class="subhead">Strengths</p>
+          <ul class="strengths">${r.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
+          <p class="subhead">Allowable weakness</p>
+          <p class="weakness">${r.weakness}</p>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const allRoles = ranked.map(code=>{
+    const r = ROLES[code];
+    return `
+      <details class="role-acc">
+        <summary><span class="swatch" style="background:var(${r.var})"></span>${r.name}</summary>
+        <p class="desc">${r.summary}</p>
+        <p class="subhead">Strengths</p>
+        <ul class="strengths">${r.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
+        <p class="subhead">Allowable weakness</p>
+        <p class="weakness">${r.weakness}</p>
+      </details>
+    `;
+  }).join('');
+
+  return `
+    <div class="card results">
+      <p class="section-label">Your results</p>
+      <h2>Your team roles profile</h2>
+      <p class="sub">Your two highest scores are your most prominent team roles.</p>
+      <div class="radar-wrap">${radar}</div>
+      <div class="scorelist">${scoreList}</div>
+      <div class="top-roles">
+        <h3>Your top role${topCodes.length>1?'s':''}, in detail</h3>
+        ${topDetails}
+      </div>
+      <div class="top-roles">
+        <h3>All eight roles explained</h3>
+        <div class="accordion">${allRoles}</div>
+      </div>
+      <div class="restart-row">
+        <button class="secondary" id="restartBtn">Start again</button>
+      </div>
+    </div>
+  `;
+}
+
+function attachHandlers(){
+  const begin = document.getElementById('beginBtn');
+  if(begin) begin.onclick = ()=>{ state.screen="section"; state.section=0; render(); };
+
+  const back = document.getElementById('backBtn');
+  if(back) back.onclick = ()=>{
+    if(state.section===0) return;
+    state.section--; render();
+  };
+
+  const next = document.getElementById('nextBtn');
+  if(next) next.onclick = ()=>{
+    if(state.section < SECTIONS.length-1){ state.section++; render(); }
+    else { state.screen="results"; render(); }
+  };
+
+  const restart = document.getElementById('restartBtn');
+  if(restart) restart.onclick = ()=>{
+    state = { screen:"intro", section:0, answers: SECTIONS.map(s => s.items.map(() => 0)) };
+    render();
+  };
+
+  document.querySelectorAll('.stepper button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const i = state.section;
+      const j = parseInt(btn.dataset.i, 10);
+      const act = btn.dataset.act;
+      const total = sectionTotal(i);
+      if(act==="inc" && total<10){ state.answers[i][j]++; }
+      if(act==="dec" && state.answers[i][j]>0){ state.answers[i][j]--; }
+      render();
+    });
+  });
+}
+
+render();
+</script>
+</body>
+</html>
