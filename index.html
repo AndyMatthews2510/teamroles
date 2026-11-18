@@ -28,6 +28,7 @@
     --imp:#4F7A3F;
     --tw:#B0559A;
     --cf:#9A742F;
+    --sp:#6B5344;
 
     --stripe: linear-gradient(90deg, var(--sh), var(--ri), var(--cf), var(--imp), var(--co), var(--me), var(--pl), var(--tw));
   }
@@ -136,24 +137,48 @@
   .example-row:last-child{border-bottom:none;}
   .example-row .pts{color:var(--warm); font-weight:700; flex-shrink:0;}
 
-  .role-preview{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-top:22px;
-  }
-  .role-chip{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    padding:6px 12px;
-    border-radius:20px;
-    font-size:0.82rem;
-    font-weight:600;
-  }
-  .role-chip .dot{width:7px; height:7px; border-radius:50%;}
+  .intro .lead{font-size:1.12rem; color:var(--ink); margin:0 0 24px; max-width:50ch;}
 
-  .start-btn{margin-top:26px;}
+  .steps{display:flex; flex-direction:column; gap:12px; margin-bottom:28px;}
+  .step{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 16px;
+    background:var(--bg);
+    border-radius:12px;
+    font-size:1.02rem;
+  }
+  .step .num{
+    flex-shrink:0;
+    width:34px; height:34px;
+    border-radius:50%;
+    color:#fff;
+    font-weight:700;
+    font-size:1rem;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  button.big{
+    width:100%;
+    padding:17px 26px;
+    font-size:1.15rem;
+    border-radius:12px;
+  }
+  button.big:hover{filter:brightness(1.08);}
+  button.wide{width:100%; margin-top:10px; padding:12px 18px;}
+
+  .example-det{margin-top:22px; border-top:1px solid var(--line); padding-top:16px;}
+  .example-det summary{
+    cursor:pointer;
+    font-weight:600;
+    font-size:0.98rem;
+    color:var(--accent);
+  }
+  .example-row.total{border-top:1px solid var(--line); border-bottom:none; margin-top:4px;}
+  .example-row.total span:first-child{font-weight:700;}
+
+  .start-btn{margin-top:0;}
 
   .section-label{
     display:inline-block;
@@ -239,11 +264,58 @@
   .hint{font-size:0.88rem; color:var(--ink-soft); margin-top:8px;}
   .hint.warn{color:var(--danger);}
 
+  .banner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:13px 16px;
+    margin:0 0 8px;
+    background:var(--warm-dim);
+    border-left:5px solid var(--warm);
+    border-radius:10px;
+    font-size:1rem;
+    font-weight:600;
+  }
+  .banner .pill{
+    flex-shrink:0;
+    background:var(--warm);
+    color:#fff;
+    padding:5px 13px;
+    border-radius:20px;
+    font-size:0.9rem;
+    font-weight:700;
+    font-variant-numeric:tabular-nums;
+  }
+  .banner.ok{background:var(--accent-dim); border-left-color:var(--accent);}
+  .banner.ok .pill{background:var(--accent);}
+  .banner.warn{background:#F6DAD4; border-left-color:var(--danger); color:var(--danger);}
+  .banner.warn .pill{background:var(--danger);}
+
+  header.top .homebtn{padding:6px 0; font-size:1rem; font-weight:600; color:var(--accent);}
+
   .navrow{
     display:flex;
+    align-items:center;
     justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
     margin-top:24px;
   }
+  button.secondary:disabled{opacity:0.4; cursor:not-allowed;}
+  .resetall-row{text-align:center; margin-top:18px;}
+  .linkbtn{
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    font-family:inherit;
+    font-size:0.9rem;
+    text-decoration:underline;
+    cursor:pointer;
+  }
+  .linkbtn:hover{color:var(--danger);}
+  .linkbtn.inline{color:var(--accent); font-size:inherit; font-weight:600; padding:0;}
+  .linkbtn.inline:hover{color:var(--accent); filter:brightness(1.2);}
   button.primary{
     background:var(--accent);
     color:#fff;
@@ -372,7 +444,18 @@
   .role-acc[open] summary{margin-bottom:14px;}
   .role-acc .desc{font-size:0.95rem; color:var(--ink-soft); margin:0 0 4px;}
 
-  .restart-row{margin-top:26px;}
+  .note{
+    margin-top:18px;
+    padding:14px 16px;
+    background:var(--bg);
+    border-left:5px solid var(--sp);
+    border-radius:10px;
+    font-size:0.95rem;
+    color:var(--ink-soft);
+  }
+  .note strong{color:var(--ink);}
+
+  .restart-row{margin-top:26px; display:flex; flex-wrap:wrap; gap:10px;}
   button.secondary{
     background:none;
     border:1px solid var(--line);
@@ -388,7 +471,10 @@
   @media (max-width:480px){
     .card{padding:22px 18px 18px;}
     .barrow{grid-template-columns:110px 1fr 30px; gap:6px;}
-    .statement .text{font-size:0.94rem;}
+    .statement .text{font-size:0.98rem;}
+    .banner{flex-direction:column; align-items:flex-start; gap:8px;}
+    .navrow .primary{width:100%; order:3;}
+    .intro h2{font-size:1.8rem;}
   }
 </style>
 </head>
@@ -468,6 +554,17 @@ const SECTIONS = [
     ["G8","TW","I get along well with others and work hard for the team."],
   ]},
 ];
+
+const SPECIALIST = {
+  name:"Specialist",
+  summary:"Dedicated and self-driven. Brings deep, often rare knowledge or technical skill that the team could not easily find elsewhere.",
+  strengths:[
+    "Provides expert knowledge and skills that are hard to replace",
+    "Highly committed to their field and takes pride in professional standards",
+    "Self-starting, and happy to dig into a problem until it is properly understood"
+  ],
+  weakness:"Tends to contribute on a narrow front and can get absorbed in technical detail, sometimes losing sight of the bigger picture or struggling to explain their thinking in plain terms."
+};
 
 const ROLES = {
   SH:  { name:"Shaper", var:"--sh",
@@ -556,27 +653,74 @@ function render(){
   const app = document.getElementById('app');
   if(state.screen==="intro") app.innerHTML = renderIntro();
   else if(state.screen==="section") app.innerHTML = renderSection(state.section);
+  else if(state.screen==="roles") app.innerHTML = renderRolesPage();
   else app.innerHTML = renderResults();
   attachHandlers();
 }
 
+function hasAnswers(){ return state.answers.some(a => a.some(v => v>0)); }
+
 function renderIntro(){
-  const chips = Object.entries(ROLES).map(([code,r])=>
-    `<span class="role-chip" style="background:var(${r.var}); color:#fff;"><span class="dot" style="background:#fff;"></span>${r.name}</span>`
-  ).join('');
+  const started = hasAnswers();
   return `
     <div class="card intro">
       <p class="section-label">Team Roles Self-Assessment</p>
-      <h2>How do you work in a team?</h2>
-      <p>There are 7 short sections below. In each one, choose the 1&ndash;3 statements that best describe you and share 10 points between them &mdash; more points for a stronger fit. Be honest with yourself. Here's a worked example:</p>
-      <div class="example">
-        <h3>WHEN INVOLVED IN A PROJECT WITH OTHER PEOPLE</h3>
-        <div class="example-row"><span>You can trust me to make sure the work is planned and gets done.</span><span class="pts">1</span></div>
-        <div class="example-row"><span>I speak up if the meeting starts to lose focus.</span><span class="pts">5</span></div>
-        <div class="example-row"><span>I enjoy learning about new ideas and changes.</span><span class="pts">4</span></div>
+      <h2>Discover your team role</h2>
+      <p class="lead">Seven short sections, about 10 minutes. You'll get a radar chart of your eight team roles, with strengths and allowable weaknesses for each.</p>
+
+      <div class="steps">
+        <div class="step"><span class="num" style="background:var(--sh)">1</span><div><strong>Read</strong> the statements in each section</div></div>
+        <div class="step"><span class="num" style="background:var(--co)">2</span><div><strong>Share 10 points</strong> across 1&ndash;3 statements that sound most like you</div></div>
+        <div class="step"><span class="num" style="background:var(--pl)">3</span><div><strong>See your results</strong> as a chart with role descriptions</div></div>
       </div>
-      <div class="role-preview">${chips}</div>
-      <button class="primary start-btn" id="beginBtn">Start</button>
+
+      <button class="primary big start-btn" id="beginBtn">${started ? 'Continue where I left off' : 'Start the questionnaire'} &rarr;</button>
+      ${started ? '<button class="secondary wide" id="introResetBtn">Clear my answers and start fresh</button>' : ''}
+      <button class="secondary wide" id="exploreRolesBtn">Read about the team roles first</button>
+
+      <details class="example-det">
+        <summary>See a quick example</summary>
+        <div class="example">
+          <h3>WHEN INVOLVED IN A PROJECT WITH OTHER PEOPLE</h3>
+          <div class="example-row"><span>You can trust me to make sure the work is planned and gets done.</span><span class="pts">1</span></div>
+          <div class="example-row"><span>I speak up if the meeting starts to lose focus.</span><span class="pts">5</span></div>
+          <div class="example-row"><span>I enjoy learning about new ideas and changes.</span><span class="pts">4</span></div>
+          <div class="example-row total"><span>Total</span><span class="pts">10</span></div>
+        </div>
+      </details>
+    </div>
+  `;
+}
+
+function roleAccHTML(badge, name, color, r){
+  return `
+    <details class="role-acc">
+      <summary><span class="swatch" style="background:${color}">${badge}</span>${name}</summary>
+      <p class="desc">${r.summary}</p>
+      <p class="subhead">Strengths</p>
+      <ul class="strengths">${r.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
+      <p class="subhead">Allowable weakness</p>
+      <p class="weakness">${r.weakness}</p>
+    </details>
+  `;
+}
+
+function renderRolesPage(){
+  const accs = Object.entries(ROLES).map(([code,r])=>roleAccHTML(code, r.name, `var(${r.var})`, r)).join('')
+    + roleAccHTML('SP', SPECIALIST.name, 'var(--sp)', SPECIALIST);
+  const backLabel = state.rolesFrom==="results" ? "&larr; Back to my results" : "&larr; Home";
+  return `
+    <header class="top">
+      <button class="ghost homebtn" id="rolesBackBtn">${backLabel}</button>
+    </header>
+    <div class="card results">
+      <p class="section-label">Team roles</p>
+      <h2>The nine team roles</h2>
+      <p class="sub">Tap a role to see its strengths and allowable weakness. Every role's weakness is the flip side of its strength, so it is accepted rather than something to fix.</p>
+      <div class="accordion">${accs}</div>
+      <div class="note">
+        <strong>A note on the Specialist role.</strong> Belbin later added a ninth role, the Specialist. This questionnaire measures the eight behavioural roles only, so the Specialist doesn't appear on your chart. It describes expertise rather than a way of behaving in a team, so it's worth asking yourself whether you are the person the team relies on for deep knowledge in a particular area.
+      </div>
     </div>
   `;
 }
@@ -610,28 +754,34 @@ function renderSection(i){
     `;
   }).join('');
 
+  const remaining = 10 - total;
   let hint = "Choose 1 to 3 statements and share 10 points between them.";
-  let hintClass = "hint";
-  if(count>3){ hint = "Choose no more than 3 statements."; hintClass="hint warn"; }
-  else if(total>10){ hint = "That's more than 10 points &mdash; take a couple back."; hintClass="hint warn"; }
+  let bannerClass = "banner";
+  if(count>3){ hint = "Choose no more than 3 statements."; bannerClass="banner warn"; }
+  else if(total===10){ hint = "All 10 points shared. You're ready to continue."; bannerClass="banner ok"; }
+  const pill = total===10 ? '&#10003; 10 / 10' : `${remaining} point${remaining===1?'':'s'} left`;
 
   return `
     <header class="top">
-      <h1>Team Roles Self-Assessment</h1>
+      <button class="ghost homebtn" id="homeBtn">&larr; Home</button>
       <span class="stepnote">Section ${i+1} of ${SECTIONS.length}</span>
     </header>
     <div class="progress">${segs}</div>
     <div class="card">
       <p class="section-label" style="background:${chipColor}; color:#fff;">Section ${String.fromCharCode(65+i)}</p>
       <h2 class="section-title">${s.title}</h2>
-      ${rows}
-      <div class="totalbar">
-        <div class="totaltext">Total: <strong class="${total===10?'ok':(over?'over':'')}">${total}</strong> / 10</div>
+      <div class="${bannerClass}">
+        <span class="banner-text">${hint}</span>
+        <span class="pill">${pill}</span>
       </div>
-      <div class="${hintClass}">${hint}</div>
+      ${rows}
       <div class="navrow">
-        <button class="ghost" id="backBtn" ${i===0?'disabled':''}>Back</button>
-        <button class="primary" id="nextBtn" ${canAdvance(i)?'':'disabled'}>${i===SECTIONS.length-1?'See my results':'Continue'}</button>
+        <button class="ghost" id="backBtn">&larr; Back</button>
+        <button class="secondary" id="resetSectionBtn" ${total===0?'disabled':''}>Reset this section</button>
+        <button class="primary" id="nextBtn" ${canAdvance(i)?'':'disabled'}>${i===SECTIONS.length-1?'See my results':'Continue'} &rarr;</button>
+      </div>
+      <div class="resetall-row">
+        <button class="linkbtn" id="resetAllBtn">Reset everything and start over</button>
       </div>
     </div>
   `;
@@ -743,11 +893,23 @@ function renderResults(){
     `;
   }).join('');
 
+  const sp = SPECIALIST;
+  const specialistBlock = `
+    <details class="role-acc">
+      <summary><span class="swatch" style="background:var(--sp)">SP</span>${sp.name}</summary>
+      <p class="desc">${sp.summary}</p>
+      <p class="subhead">Strengths</p>
+      <ul class="strengths">${sp.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
+      <p class="subhead">Allowable weakness</p>
+      <p class="weakness">${sp.weakness}</p>
+    </details>
+  `;
+
   return `
     <div class="card results">
       <p class="section-label">Your results</p>
       <h2>Your team roles profile</h2>
-      <p class="sub">Your two highest scores are your most prominent team roles.</p>
+      <p class="sub">Your two highest scores are your most prominent team roles. <button class="linkbtn inline" id="viewRolesBtn">Read about all the roles</button></p>
       <div class="radar-wrap">${radar}</div>
       <div class="scorelist">${scoreList}</div>
       <div class="top-roles">
@@ -755,10 +917,14 @@ function renderResults(){
         ${topDetails}
       </div>
       <div class="top-roles">
-        <h3>All eight roles explained</h3>
-        <div class="accordion">${allRoles}</div>
+        <h3>All roles explained</h3>
+        <div class="accordion">${allRoles}${specialistBlock}</div>
+        <div class="note">
+          <strong>A note on the Specialist role.</strong> Belbin later added a ninth role, the Specialist. This questionnaire measures the eight behavioural roles only, so the Specialist doesn't appear on your chart. It describes expertise rather than a way of behaving in a team, so it's worth asking yourself whether you are the person the team relies on for deep knowledge in a particular area.
+        </div>
       </div>
       <div class="restart-row">
+        <button class="secondary" id="editAnswersBtn">&larr; Back to my answers</button>
         <button class="secondary" id="restartBtn">Start again</button>
       </div>
     </div>
@@ -767,25 +933,69 @@ function renderResults(){
 
 function attachHandlers(){
   const begin = document.getElementById('beginBtn');
-  if(begin) begin.onclick = ()=>{ state.screen="section"; state.section=0; render(); };
+  if(begin) begin.onclick = ()=>{
+    const firstOpen = SECTIONS.findIndex((_,i)=>!canAdvance(i));
+    state.screen="section";
+    state.section = firstOpen === -1 ? SECTIONS.length-1 : firstOpen;
+    render(); window.scrollTo(0,0);
+  };
+
+  const exploreRoles = document.getElementById('exploreRolesBtn');
+  if(exploreRoles) exploreRoles.onclick = ()=>{ state.rolesFrom="intro"; state.screen="roles"; render(); window.scrollTo(0,0); };
+
+  const viewRoles = document.getElementById('viewRolesBtn');
+  if(viewRoles) viewRoles.onclick = ()=>{ state.rolesFrom="results"; state.screen="roles"; render(); window.scrollTo(0,0); };
+
+  const rolesBack = document.getElementById('rolesBackBtn');
+  if(rolesBack) rolesBack.onclick = ()=>{
+    state.screen = state.rolesFrom==="results" ? "results" : "intro";
+    render(); window.scrollTo(0,0);
+  };
+
+  const resetAll = () => {
+    state = { screen:"intro", section:0, answers: SECTIONS.map(s => s.items.map(() => 0)) };
+    render();
+    window.scrollTo(0,0);
+  };
+
+  const introReset = document.getElementById('introResetBtn');
+  if(introReset) introReset.onclick = resetAll;
 
   const back = document.getElementById('backBtn');
   if(back) back.onclick = ()=>{
-    if(state.section===0) return;
-    state.section--; render();
+    if(state.section===0){ state.screen="intro"; }
+    else { state.section--; }
+    render(); window.scrollTo(0,0);
+  };
+
+  const home = document.getElementById('homeBtn');
+  if(home) home.onclick = ()=>{ state.screen="intro"; render(); window.scrollTo(0,0); };
+
+  const resetSection = document.getElementById('resetSectionBtn');
+  if(resetSection) resetSection.onclick = ()=>{
+    state.answers[state.section] = state.answers[state.section].map(()=>0);
+    render();
+  };
+
+  const resetAllBtn = document.getElementById('resetAllBtn');
+  if(resetAllBtn) resetAllBtn.onclick = ()=>{
+    if(confirm("Clear all your answers and start over?")) resetAll();
   };
 
   const next = document.getElementById('nextBtn');
   if(next) next.onclick = ()=>{
     if(state.section < SECTIONS.length-1){ state.section++; render(); }
     else { state.screen="results"; render(); }
+    window.scrollTo(0,0);
+  };
+
+  const editAnswers = document.getElementById('editAnswersBtn');
+  if(editAnswers) editAnswers.onclick = ()=>{
+    state.screen="section"; state.section=SECTIONS.length-1; render(); window.scrollTo(0,0);
   };
 
   const restart = document.getElementById('restartBtn');
-  if(restart) restart.onclick = ()=>{
-    state = { screen:"intro", section:0, answers: SECTIONS.map(s => s.items.map(() => 0)) };
-    render();
-  };
+  if(restart) restart.onclick = resetAll;
 
   document.querySelectorAll('.stepper button').forEach(btn=>{
     btn.addEventListener('click', ()=>{
